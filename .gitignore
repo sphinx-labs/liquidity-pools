@@ -8,3 +8,4 @@ broadcast/
 lcov.info
 docs
 .vscode
+node_modules/

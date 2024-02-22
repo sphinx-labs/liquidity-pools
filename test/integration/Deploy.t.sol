@@ -36,7 +36,9 @@ contract DeployTest is Test, Deployer {
     address self;
     ERC20 erc20;
 
-    function setUp() public {
+    function setUp() public override {
+        super.setUp();
+
         deploy(address(this));
         PermissionlessRouter router = new PermissionlessRouter(address(aggregator));
         wire(address(router));

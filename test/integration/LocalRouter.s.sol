@@ -10,15 +10,19 @@ interface LiquidityPoolLike {
 
 // Script to deploy Liquidity Pools with an Axelar router.
 contract LocalRouterScript is Deployer {
-    function setUp() public {}
+    function setUp() public override {
+        super.setUp();
+    }
 
-    function run() public {
+    function run() public sphinx {
+        address deployer = safeAddress();
+
         // NOTE: 0x361c43cd5Fd700923Aae9dED678851a201839fc6 is the H160 of Keyring::Admin in the Centrifuge Chain
         // repository
         admin = address(0x361c43cd5Fd700923Aae9dED678851a201839fc6);
         pausers = [address(0x361c43cd5Fd700923Aae9dED678851a201839fc6)];
 
-        deploy(msg.sender);
+        deploy(deployer);
         LocalRouter router = new LocalRouter();
         wire(address(router));
         router.file("gateway", address(gateway));
@@ -26,6 +30,6 @@ contract LocalRouterScript is Deployer {
         router.file("sourceAddress", "0x1111111111111111111111111111111111111111");
 
         giveAdminAccess();
-        removeDeployerAccess(address(router), msg.sender);
+        removeDeployerAccess(address(router), deployer);
     }
 }
