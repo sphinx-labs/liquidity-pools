@@ -7,20 +7,19 @@ import {Deployer, RouterLike} from "./Deployer.sol";
 
 // Script to deploy Liquidity Pools with a permissionless router for testing.
 contract PermissionlessScript is Deployer {
-    function setUp() public {}
+    function setUp() public override {
+        super.setUp();
+    }
 
-    function run() public {
-        vm.startBroadcast();
+    function run() public sphinx {
+        address deployer = safeAddress();
+        admin = deployer;
+        pausers = [deployer];
 
-        admin = msg.sender;
-        pausers = [msg.sender];
-
-        deploy(msg.sender);
+        deploy(deployer);
         PermissionlessRouter router = new PermissionlessRouter(address(aggregator));
         wire(address(router));
 
         giveAdminAccess();
-
-        vm.stopBroadcast();
     }
 }

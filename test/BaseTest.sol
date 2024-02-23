@@ -47,7 +47,9 @@ contract BaseTest is Deployer, Test {
     uint8 public defaultRestrictionSet = 2;
     uint8 public defaultDecimals = 8;
 
-    function setUp() public virtual {
+    function setUp() public virtual override {
+        super.setUp();
+
         vm.chainId(1);
 
         // make yourself admin

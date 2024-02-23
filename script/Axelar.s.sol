@@ -12,21 +12,21 @@ interface LiquidityPoolLike {
 
 // Script to deploy Liquidity Pools with an Axelar router.
 contract AxelarScript is Deployer {
-    function setUp() public {}
+    function setUp() public override {
+        super.setUp();
+    }
 
-    function run() public {
-        vm.startBroadcast();
+    function run() public sphinx {
+        address deployer = safeAddress();
 
         admin = vm.envAddress("ADMIN");
         pausers = vm.envAddress("PAUSERS", ",");
 
-        deploy(msg.sender);
+        deploy(deployer);
         AxelarRouter router = new AxelarRouter(address(aggregator), address(vm.envAddress("AXELAR_GATEWAY")));
         wire(address(router));
 
         giveAdminAccess();
-        removeDeployerAccess(address(router), msg.sender);
-
-        vm.stopBroadcast();
+        removeDeployerAccess(address(router), deployer);
     }
 }

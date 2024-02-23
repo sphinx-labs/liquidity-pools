@@ -13,6 +13,7 @@ import {DelayedAdmin} from "src/admins/DelayedAdmin.sol";
 import {LiquidityPoolFactory} from "src/factories/LiquidityPoolFactory.sol";
 import {RestrictionManagerFactory} from "src/factories/RestrictionManagerFactory.sol";
 import {TrancheTokenFactory} from "src/factories/TrancheTokenFactory.sol";
+import {SphinxConfig} from "./SphinxConfig.sol";
 import "forge-std/Script.sol";
 
 interface RouterLike {
@@ -24,7 +25,7 @@ interface AuthLike {
     function deny(address who) external;
 }
 
-contract Deployer is Script {
+contract Deployer is Script, SphinxConfig {
     uint256 internal constant delay = 48 hours;
 
     address admin;
